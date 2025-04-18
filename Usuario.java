@@ -7,16 +7,16 @@ package prueba;
 public class Usuario {
     private String nombre;
     private String email;
-    //David: Import el enum a la clase usuario eliminando los tres boolean que habia antes del cambio
     private TipoUsuario tipo;
-
+    private MetodoDePago metodoPago;
  
-    public Usuario(String nombre, String email, TipoUsuario tipo) {
+    public Usuario(String nombre, String email, TipoUsuario tipo, MetodoDePago metodoPago) {
         this.nombre = nombre;
         this.email = email;
         this.tipo = tipo;
+        this.metodoPago = metodoPago;
     }
-
+    
     public String getNombre() {
         return nombre;
     }
@@ -27,6 +27,10 @@ public class Usuario {
     
     public TipoUsuario getTipo() {
         return tipo;
+    }
+    
+    public MetodoDePago getMetodoPago() {
+        return metodoPago;
     }
 
     @Override
