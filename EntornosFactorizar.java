@@ -80,15 +80,17 @@ public class EntornosFactorizar {
 		return productosValidos.containsKey(tipoProducto) && productosValidos.get(tipoProducto).contains(categoriaProducto);
 	}
 
-    private double aplicarDescuentoPorUsuario(Usuario usuario, double total) {
-        if (usuario.esEmpleado()) {
-            total *= 0.7; 
-        } else if (usuario.esMiembroGold()) {
-            total *= 0.85;  
-        } else if (usuario.esMiembroSilver()) {
-            total *= 0.9; 
-        }
-        return total;
+    /*
+    * David: Metodo que aplica el descuento segun el enum TipoUsuario 
+    */
+    private static double aplicarDescuentoPorUsuario(Usuario usuario, double total) {
+    	switch (usuario.getTipo()) {
+	        case EMPLEADO: return total * 0.7;
+	        case MIEMBRO_GOLD: return total * 0.85;
+	        case MIEMBRO_SILVER: return total * 0.9;
+	        default: return total;
+    	}
+        
     }
   
     /*
