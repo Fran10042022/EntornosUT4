@@ -1,24 +1,21 @@
 package prueba;
 
-import java.util.Map;
-import java.util.Set;
-
 public class EntornosFactorizar {
     
     
-    public double calculaDato(double precioBase, int cantidad, double descuento, double impuestos, boolean esOfertaEspecial, boolean esNavidad, String metodoPago, boolean aplicarCuotas,final int cuota, boolean esEnvioGratis, double precioEnvio, String tipoProducto, String categoriaProducto, String codigoCupon, Usuario usuario) {
+    public double calculaDato(Producto producto, double descuento, double impuestos, boolean esOfertaEspecial, boolean esNavidad, int cuota, boolean esEnvioGratis, String codigoCupon, Usuario usuario) {
        
-        double total = aplicarDescuentosYCargosGenerales(precioBase, cantidad, descuento, impuestos, esOfertaEspecial, esNavidad,usuario);
+        double total = aplicarDescuentosYCargosGenerales(producto, descuento, impuestos, esOfertaEspecial, esNavidad, usuario);
 
         if (cuota>0) aplicarCuota(cuota, total);
 
-		if (!esEnvioGratis) total += precioEnvio;
+		if (!esEnvioGratis) total += producto.getPrecioEnvio();
 
         if (codigoCupon != null && !codigoCupon.isBlank()) {
             total = aplicarCuponDescuento(total, codigoCupon);
         }
 
-        if (!validarProducto(tipoProducto, categoriaProducto))
+        if (!producto.validarProducto())
             throw new IllegalArgumentException("El producto no es vÃ¡lido para esta compra.");
 
       
@@ -62,17 +59,6 @@ public class EntornosFactorizar {
         return total * descuento;
 
     }
-    private boolean validarProducto(final String tipoProducto,final String categoriaProducto) {//Guille
-		
-	final Set<String> categoriasElec = Set.of("Smartphones");
-	final Set<String> categoriasRopa = Set.of("Hombre", "Mujer");
-
-	final Map<String, Set<String>> productosValidos = Map.of(
-				"Electronico", categoriasElec,
-				"Ropa",categoriasRopa);
-
-		return productosValidos.containsKey(tipoProducto) && productosValidos.get(tipoProducto).contains(categoriaProducto);
-	}
 
     /*
     *David: Metodo que aplica el descuento segun el enum TipoUsuario 
@@ -90,8 +76,8 @@ public class EntornosFactorizar {
     /*
      * Metodo que devuelve el total base con los descuentos principales aplicados
      */
-    private double aplicarDescuentosYCargosGenerales(final double precioBase,final int cantidad,final double descuento,final double impuestos,final boolean oferE,final boolean esNavidad, final Usuario usuario) {
-		double total = precioBase * cantidad;
+    private double aplicarDescuentosYCargosGenerales(final Producto producto, final double descuento,final double impuestos,final boolean oferE,final boolean esNavidad, final Usuario usuario) {
+		double total = producto.getPrecioBase() * producto.getCantidad();
 		
 		if (descuento > 0) {
 			total -= total * (descuento / 100);
