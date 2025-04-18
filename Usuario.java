@@ -7,32 +7,15 @@ package prueba;
 public class Usuario {
     private String nombre;
     private String email;
-    private boolean empleado;
-    private boolean miembroGold;
-    private boolean miembroSilver;
+    //David: Import el enum a la clase usuario eliminando los tres boolean que habia antes del cambio
+    private TipoUsuario tipo;
 
  
-    public Usuario(String nombre, String email, boolean empleado, boolean miembroGold, boolean miembroSilver) {
+    public Usuario(String nombre, String email, TipoUsuario tipo) {
         this.nombre = nombre;
         this.email = email;
-        this.empleado = empleado;
-        this.miembroGold = miembroGold;
-        this.miembroSilver = miembroSilver;
+        this.tipo = tipo;
     }
-
-   
-    public boolean esEmpleado() {
-        return empleado;
-    }
-
-    public boolean esMiembroGold() {
-        return miembroGold;
-    }
-
-    public boolean esMiembroSilver() {
-        return miembroSilver;
-    }
-
 
     public String getNombre() {
         return nombre;
@@ -41,15 +24,16 @@ public class Usuario {
     public String getEmail() {
         return email;
     }
+    
+    public TipoUsuario getTipo() {
+        return tipo;
+    }
 
     @Override
     public String toString() {
         return "Usuario{" +
                 "nombre='" + nombre + '\'' +
                 ", email='" + email + '\'' +
-                ", empleado=" + empleado +
-                ", miembroGold=" + miembroGold +
-                ", miembroSilver=" + miembroSilver +
-                '}';
+                ", tipo=" + tipo + '}';
     }
 }
