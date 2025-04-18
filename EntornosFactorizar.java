@@ -4,16 +4,9 @@ public class EntornosFactorizar {
     
     public double calculaDato(double precioBase, int cantidad, double descuento, double impuestos, boolean tieneTarjetaFidelidad, double saldoTarjeta, boolean esOfertaEspecial, boolean esNavidad, boolean esMiembroVip, String metodoPago, boolean aplicarCuotas,final int cuota, boolean esEnvioGratis, double precioEnvio, String tipoProducto, String categoriaProducto, String codigoCupon, Usuario usuario) {
        
-        double total = aplicarDescuentosGenerales(precioBase, cantidad, descuento, tieneTarjetaFidelidad, saldoTarjeta, impuestos, esOfertaEspecial, esNavidad, esMiembroVip);
-        
-        if (metodoPago.equals("TarjetaCredito")) {
-            total *= 1.05;
-        } else if (metodoPago.equals("PayPal")) {
-            total *= 1.02;
-        }
+        double total = aplicarDescuentosYCargosGenerales(precioBase, cantidad, descuento, tieneTarjetaFidelidad, saldoTarjeta, impuestos, esOfertaEspecial, esNavidad, esMiembroVip,usuario);
 
         if (cuota>0) aplicarCuota(cuota, total);
-
 
         if (!esEnvioGratis) {
             total += precioEnvio;
@@ -100,7 +93,7 @@ public class EntornosFactorizar {
     /*
      * Metodo que devuelve el total base con los descuentos principales aplicados
      */
-    private double aplicarDescuentosGenerales(final double precioBase,final int cantidad,final double descuento,final boolean tieneF,final double saldoTarjeta,final double impuestos,final boolean oferE,final boolean esNavidad,final boolean miembroV) {
+    private double aplicarDescuentosYCargosGenerales(final double precioBase,final int cantidad,final double descuento,final boolean tieneF,final double saldoTarjeta,final double impuestos,final boolean oferE,final boolean esNavidad,final boolean miembroV) {
 		double total = precioBase * cantidad;
 		
 		if (descuento > 0) {
@@ -125,6 +118,11 @@ public class EntornosFactorizar {
 			total *= 0.8;
 		}
 
-		return total;
-		
+		switch (usuario.getMetodoPago()) {
+	        case TARJETACREDITO: return total * 1.05;
+	        case PAYPAL: return total * 1.02;
+	        case EFECTIVO: return total;
+	        default: throw new IllegalArgumentException("Metodo de Pago Invalido");
+		}
+				
 	}
