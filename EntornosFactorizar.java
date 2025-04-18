@@ -39,16 +39,6 @@ public class EntornosFactorizar {
         }
 
       
-        if (usuario != null) {
-            total = aplicarDescuentoPorUsuario(usuario, total);
-        }
-
-     
-        if (total < 0) {
-            total = 0;
-        }
-
-        return total;
     }
     
   
@@ -83,6 +73,7 @@ public class EntornosFactorizar {
         return total;
     }
 }
+        return Math.round(((usuario != null ? aplicarDescuentoPorUsuario(usuario, Math.max(0, total)) : Math.max(0, total))) * 100.0) / 100.0;
     /*
      * Metodo que devuelve el total base con los descuentos principales aplicados
      */
