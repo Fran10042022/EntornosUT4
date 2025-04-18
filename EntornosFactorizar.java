@@ -2,9 +2,7 @@ package prueba;
 public class EntornosFactorizar {
     
     
-    public double calculaDato(double precioBase, int cantidad, double descuento, double impuestos, boolean tieneTarjetaFidelidad, double saldoTarjeta, boolean esOfertaEspecial, boolean esNavidad, boolean esMiembroVip, String metodoPago, boolean aplicarCuotas,final int cuota, boolean esEnvioGratis, double precioEnvio, String tipoProducto, String categoriaProducto, String codigoCupon, Usuario usuario) {
        
-        double total = aplicarDescuentosYCargosGenerales(precioBase, cantidad, descuento, tieneTarjetaFidelidad, saldoTarjeta, impuestos, esOfertaEspecial, esNavidad, esMiembroVip,usuario);
 
         if (cuota>0) aplicarCuota(cuota, total);
 
@@ -86,15 +84,12 @@ public class EntornosFactorizar {
     /*
      * Metodo que devuelve el total base con los descuentos principales aplicados
      */
-    private double aplicarDescuentosYCargosGenerales(final double precioBase,final int cantidad,final double descuento,final boolean tieneF,final double saldoTarjeta,final double impuestos,final boolean oferE,final boolean esNavidad,final boolean miembroV) {
 		double total = precioBase * cantidad;
 		
 		if (descuento > 0) {
 			total -= total * (descuento / 100);
 		}
 
-		if (tieneF && saldoTarjeta > 0) {
-			total -= saldoTarjeta;
 		}
 
 		total += total * (impuestos / 100);
@@ -119,3 +114,12 @@ public class EntornosFactorizar {
 		}
 				
 	}
+
+import java.util.Map;
+import java.util.Set;
+
+    public double calculaDato(double precioBase, int cantidad, double descuento, double impuestos, boolean esOfertaEspecial, boolean esNavidad, boolean esMiembroVip, String metodoPago, boolean aplicarCuotas,final int cuota, boolean esEnvioGratis, double precioEnvio, String tipoProducto, String categoriaProducto, String codigoCupon, Usuario usuario) {
+        double total = aplicarDescuentosYCargosGenerales(precioBase, cantidad, descuento, impuestos, esOfertaEspecial, esNavidad, esMiembroVip,usuario);
+    private double aplicarDescuentosYCargosGenerales(final double precioBase,final int cantidad,final double descuento,final double impuestos,final boolean oferE,final boolean esNavidad,final boolean miembroV, final Usuario usuario) {
+		if (usuario.isTieneTarjetaFidelidad() && usuario.getSaldoTarjeta() > 0) {
+			total -= usuario.getSaldoTarjeta();
