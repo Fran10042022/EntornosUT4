@@ -6,9 +6,9 @@ import java.util.Set;
 public class EntornosFactorizar {
     
     
-    public double calculaDato(double precioBase, int cantidad, double descuento, double impuestos, boolean esOfertaEspecial, boolean esNavidad, boolean esMiembroVip, String metodoPago, boolean aplicarCuotas,final int cuota, boolean esEnvioGratis, double precioEnvio, String tipoProducto, String categoriaProducto, String codigoCupon, Usuario usuario) {
+    public double calculaDato(double precioBase, int cantidad, double descuento, double impuestos, boolean esOfertaEspecial, boolean esNavidad, String metodoPago, boolean aplicarCuotas,final int cuota, boolean esEnvioGratis, double precioEnvio, String tipoProducto, String categoriaProducto, String codigoCupon, Usuario usuario) {
        
-        double total = aplicarDescuentosYCargosGenerales(precioBase, cantidad, descuento, impuestos, esOfertaEspecial, esNavidad, esMiembroVip,usuario);
+        double total = aplicarDescuentosYCargosGenerales(precioBase, cantidad, descuento, impuestos, esOfertaEspecial, esNavidad,usuario);
 
         if (cuota>0) aplicarCuota(cuota, total);
 
@@ -90,7 +90,7 @@ public class EntornosFactorizar {
     /*
      * Metodo que devuelve el total base con los descuentos principales aplicados
      */
-    private double aplicarDescuentosYCargosGenerales(final double precioBase,final int cantidad,final double descuento,final double impuestos,final boolean oferE,final boolean esNavidad,final boolean miembroV, final Usuario usuario) {
+    private double aplicarDescuentosYCargosGenerales(final double precioBase,final int cantidad,final double descuento,final double impuestos,final boolean oferE,final boolean esNavidad, final Usuario usuario) {
 		double total = precioBase * cantidad;
 		
 		if (descuento > 0) {
@@ -111,7 +111,7 @@ public class EntornosFactorizar {
 			total *= 0.85;
 		}
 
-		if (miembroV) {
+		if (usuario.isEsMiembroVip()) {
 			total *= 0.8;
 		}
 
