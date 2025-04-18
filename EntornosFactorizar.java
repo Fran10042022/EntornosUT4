@@ -3,35 +3,8 @@ public class EntornosFactorizar {
     
     
     public double calculaDato(double precioBase, int cantidad, double descuento, double impuestos, boolean tieneTarjetaFidelidad, double saldoTarjeta, boolean esOfertaEspecial, boolean esNavidad, boolean esMiembroVip, String metodoPago, boolean aplicarCuotas, int cuota, boolean esEnvioGratis, double precioEnvio, String tipoProducto, String categoriaProducto, String codigoCupon, Usuario usuario) {
-        double total = precioBase * cantidad;
-
        
-        if (descuento > 0) {
-            total -= total * (descuento / 100);
-        }
-
-   
-        if (tieneTarjetaFidelidad && saldoTarjeta > 0) {
-            total -= saldoTarjeta;
-        }
-
-       
-        total += total * (impuestos / 100);
-
-        if (esOfertaEspecial) {
-            total *= 0.9;
-        }
-
-     
-        if (esNavidad) {
-            total *= 0.85;
-        }
-
-     
-        if (esMiembroVip) {
-            total *= 0.8;
-        }
-
+        double total = aplicarDescuentosGenerales(precioBase, cantidad, descuento, tieneTarjetaFidelidad, saldoTarjeta, impuestos, esOfertaEspecial, esNavidad, esMiembroVip);
         
         if (metodoPago.equals("TarjetaCredito")) {
             total *= 1.05;
@@ -77,7 +50,7 @@ public class EntornosFactorizar {
 
         return total;
     }
-
+    
   
     private double aplicarCuponDescuento(double total, String codigoCupon) {
         if (codigoCupon.equals("CUPOFF")) {
@@ -110,3 +83,34 @@ public class EntornosFactorizar {
         return total;
     }
 }
+    /*
+     * Metodo que devuelve el total base con los descuentos principales aplicados
+     */
+    private double aplicarDescuentosGenerales(final double precioBase,final int cantidad,final double descuento,final boolean tieneF,final double saldoTarjeta,final double impuestos,final boolean oferE,final boolean esNavidad,final boolean miembroV) {
+		double total = precioBase * cantidad;
+		
+		if (descuento > 0) {
+			total -= total * (descuento / 100);
+		}
+
+		if (tieneF && saldoTarjeta > 0) {
+			total -= saldoTarjeta;
+		}
+
+		total += total * (impuestos / 100);
+
+		if (oferE) {
+			total *= 0.9;
+		}
+
+		if (esNavidad) {
+			total *= 0.85;
+		}
+
+		if (miembroV) {
+			total *= 0.8;
+		}
+
+		return total;
+		
+	}
