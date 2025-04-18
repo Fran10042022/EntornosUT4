@@ -3,35 +3,8 @@ public class EntornosFactorizar {
     
     
     public double calculaDato(double precioBase, int cantidad, double descuento, double impuestos, boolean tieneTarjetaFidelidad, double saldoTarjeta, boolean esOfertaEspecial, boolean esNavidad, boolean esMiembroVip, String metodoPago, boolean aplicarCuotas, int cuota, boolean esEnvioGratis, double precioEnvio, String tipoProducto, String categoriaProducto, String codigoCupon, Usuario usuario) {
-        double total = precioBase * cantidad;
-
        
-        if (descuento > 0) {
-            total -= total * (descuento / 100);
-        }
-
-   
-        if (tieneTarjetaFidelidad && saldoTarjeta > 0) {
-            total -= saldoTarjeta;
-        }
-
-       
-        total += total * (impuestos / 100);
-
-        if (esOfertaEspecial) {
-            total *= 0.9;
-        }
-
-     
-        if (esNavidad) {
-            total *= 0.85;
-        }
-
-     
-        if (esMiembroVip) {
-            total *= 0.8;
-        }
-
+        double total = aplicarDescuentosGenerales(precioBase, cantidad, descuento, tieneTarjetaFidelidad, saldoTarjeta, impuestos, esOfertaEspecial, esNavidad, esMiembroVip);
         
         if (metodoPago.equals("TarjetaCredito")) {
             total *= 1.05;
@@ -77,7 +50,38 @@ public class EntornosFactorizar {
 
         return total;
     }
+    
+    /*
+     * Metodo que devuelve el total base con los descuentos principales aplicados
+     */
+    private double aplicarDescuentosGenerales(double precioBase, int cantidad, double descuento, boolean tieneTarjetaFidelidad, double saldoTarjeta, double impuestos, boolean esOfertaEspecial, boolean esNavidad, boolean esMiembroVip) {
+		double total = precioBase * cantidad;
+		
+		if (descuento > 0) {
+			total -= total * (descuento / 100);
+		}
 
+		if (tieneTarjetaFidelidad && saldoTarjeta > 0) {
+			total -= saldoTarjeta;
+		}
+
+		total += total * (impuestos / 100);
+
+		if (esOfertaEspecial) {
+			total *= 0.9;
+		}
+
+		if (esNavidad) {
+			total *= 0.85;
+		}
+
+		if (esMiembroVip) {
+			total *= 0.8;
+		}
+
+		return total;
+		
+	}
   
     private double aplicarCuponDescuento(double total, String codigoCupon) {
         if (codigoCupon.equals("CUPOFF")) {
