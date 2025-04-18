@@ -2,7 +2,7 @@ package prueba;
 public class EntornosFactorizar {
     
     
-    public double calculaDato(double precioBase, int cantidad, double descuento, double impuestos, boolean tieneTarjetaFidelidad, double saldoTarjeta, boolean esOfertaEspecial, boolean esNavidad, boolean esMiembroVip, String metodoPago, boolean aplicarCuotas, int cuota, boolean esEnvioGratis, double precioEnvio, String tipoProducto, String categoriaProducto, String codigoCupon, Usuario usuario) {
+    public double calculaDato(double precioBase, int cantidad, double descuento, double impuestos, boolean tieneTarjetaFidelidad, double saldoTarjeta, boolean esOfertaEspecial, boolean esNavidad, boolean esMiembroVip, String metodoPago, boolean aplicarCuotas,final int cuota, boolean esEnvioGratis, double precioEnvio, String tipoProducto, String categoriaProducto, String codigoCupon, Usuario usuario) {
        
         double total = aplicarDescuentosGenerales(precioBase, cantidad, descuento, tieneTarjetaFidelidad, saldoTarjeta, impuestos, esOfertaEspecial, esNavidad, esMiembroVip);
         
@@ -13,15 +13,22 @@ public class EntornosFactorizar {
         }
 
       
-        if (aplicarCuotas) {
-            if (cuota == 3) {
-                total *= 1.1;
-            } else if (cuota == 6) {
-                total *= 1.2;
-            } else if (cuota == 12) {
-                total *= 1.3;
-            }
-        }
+
+        //David: Uso switch para optimizar el if que habia anteriormente 
+        // y asi lo simplifico
+        switch (cuota) {
+	        case 3:
+	        	total *= 1.1;
+	        	break;
+	        case 6:
+	        	total *= 1.2;
+	        	break;
+	        case 12:
+	        	total *= 1.3;
+	        	break;
+	        default:
+	        	total *= 1.00;
+	        }
 
 
         if (!esEnvioGratis) {
@@ -52,13 +59,18 @@ public class EntornosFactorizar {
     }
     
   
-    private double aplicarCuponDescuento(double total, String codigoCupon) {
-        if (codigoCupon.equals("CUPOFF")) {
-            total *= 0.8;
-        } else if (codigoCupon.equals("NAVIDAD2025")) {
-            total *= 0.75;
-        }
-        return total;
+    private double aplicarCuponDescuento(final double total,final String codigoCupon) { //Elena: hacemos un switch y creamos una variable para optimizar el codigo
+
+        final double descuento = switch (codigoCupon) {
+
+            case "CUPOFF" -> 0.8;
+            case "NAVIDAD2025" -> 0.75;
+            default -> 1.0;
+
+        };
+
+        return total * descuento;
+
     }
     private boolean validarProducto(final String tipoProducto,final String categoriaProducto) {//Guille
 		
