@@ -87,20 +87,18 @@ public class EntornosFactorizar {
         }
         return total;
     }
+    private boolean validarProducto(final String tipoProducto,final String categoriaProducto) {//Guille
+		
+	final Set<String> categoriasElec = Set.of("Smartphones");
+	final Set<String> categoriasRopa = Set.of("Hombre", "Mujer");
 
-   
-    private boolean validarProducto(String tipoProducto, String categoriaProducto) {
-        if (tipoProducto.equals("Electronico") && categoriaProducto.equals("Smartphones")) {
-            return true;
-        } else if (tipoProducto.equals("Ropa") && categoriaProducto.equals("Hombre")) {
-            return true;
-        } else if (tipoProducto.equals("Ropa") && categoriaProducto.equals("Mujer")) {
-            return true;
-        }
-        return false;
-    }
+	final Map<String, Set<String>> productosValidos = Map.of(
+				"Electronico", categoriasElec,
+				"Ropa",categoriasRopa);
 
-   
+		return productosValidos.containsKey(tipoProducto) && productosValidos.get(tipoProducto).contains(categoriaProducto);
+	}
+
     private double aplicarDescuentoPorUsuario(Usuario usuario, double total) {
         if (usuario.esEmpleado()) {
             total *= 0.7; 
