@@ -11,14 +11,16 @@ public class Usuario {
     private MetodoDePago metodoPago;
     private boolean tieneTarjetaFidelidad;
     private double saldoTarjeta;
+    private boolean esMiembroVip;
  
-    public Usuario(String nombre, String email, TipoUsuario tipo, MetodoDePago metodoPago, boolean tieneTarjetaFidelidad, double saldoTarjeta) {
+    public Usuario(String nombre, String email, TipoUsuario tipo, MetodoDePago metodoPago, boolean tieneTarjetaFidelidad, double saldoTarjeta, boolean esMiembroVip) {
         this.nombre = nombre;
         this.email = email;
         this.tipo = tipo;
         this.metodoPago = metodoPago;
         this.tieneTarjetaFidelidad = tieneTarjetaFidelidad;
         this.saldoTarjeta = saldoTarjeta;
+        this.esMiembroVip = esMiembroVip;
     }
     
     public String getNombre() {
@@ -51,6 +53,14 @@ public class Usuario {
 
 	public void setSaldoTarjeta(double saldoTarjeta) {
 		this.saldoTarjeta = saldoTarjeta;
+	}
+
+    public boolean isEsMiembroVip() {
+		return esMiembroVip;
+	}
+
+	public void setEsMiembroVip(boolean esMiembroVip) {
+		this.esMiembroVip = esMiembroVip;
 	}
 
     @Override
