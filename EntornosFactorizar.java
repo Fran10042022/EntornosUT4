@@ -2,7 +2,7 @@ package prueba;
 public class EntornosFactorizar {
     
     
-    public double calculaDato(double precioBase, int cantidad, double descuento, double impuestos, boolean tieneTarjetaFidelidad, double saldoTarjeta, boolean esOfertaEspecial, boolean esNavidad, boolean esMiembroVip, String metodoPago, boolean aplicarCuotas, int cuota, boolean esEnvioGratis, double precioEnvio, String tipoProducto, String categoriaProducto, String codigoCupon, Usuario usuario) {
+    public double calculaDato(double precioBase, int cantidad, double descuento, double impuestos, boolean tieneTarjetaFidelidad, double saldoTarjeta, boolean esOfertaEspecial, boolean esNavidad, boolean esMiembroVip, String metodoPago, boolean aplicarCuotas,final int cuota, boolean esEnvioGratis, double precioEnvio, String tipoProducto, String categoriaProducto, String codigoCupon, Usuario usuario) {
        
         double total = aplicarDescuentosGenerales(precioBase, cantidad, descuento, tieneTarjetaFidelidad, saldoTarjeta, impuestos, esOfertaEspecial, esNavidad, esMiembroVip);
         
@@ -13,15 +13,22 @@ public class EntornosFactorizar {
         }
 
       
-        if (aplicarCuotas) {
-            if (cuota == 3) {
-                total *= 1.1;
-            } else if (cuota == 6) {
-                total *= 1.2;
-            } else if (cuota == 12) {
-                total *= 1.3;
-            }
-        }
+
+        //David: Uso switch para optimizar el if que habia anteriormente 
+        // y asi lo simplifico
+        switch (cuota) {
+	        case 3:
+	        	total *= 1.1;
+	        	break;
+	        case 6:
+	        	total *= 1.2;
+	        	break;
+	        case 12:
+	        	total *= 1.3;
+	        	break;
+	        default:
+	        	total *= 1.00;
+	        }
 
 
         if (!esEnvioGratis) {
