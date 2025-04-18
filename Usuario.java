@@ -10,6 +10,7 @@ public class Usuario {
     private TipoUsuario tipo;
     private MetodoDePago metodoPago;
  
+    public Usuario(String nombre, String email, TipoUsuario tipo, MetodoDePago metodoPago) {
         this.nombre = nombre;
         this.email = email;
         this.tipo = tipo;
@@ -40,24 +41,3 @@ public class Usuario {
                 ", tipo=" + tipo + '}';
     }
 }
-    private boolean tieneTarjetaFidelidad;
-    private double saldoTarjeta;
-    public Usuario(String nombre, String email, TipoUsuario tipo, MetodoDePago metodoPago, boolean tieneTarjetaFidelidad, double saldoTarjeta) {
-        this.tieneTarjetaFidelidad = tieneTarjetaFidelidad;
-        this.saldoTarjeta = saldoTarjeta;
-    
-    public boolean isTieneTarjetaFidelidad() {
-		return tieneTarjetaFidelidad;
-	}
-
-	public void setTieneTarjetaFidelidad(boolean tieneTarjetaFidelidad) {
-		this.tieneTarjetaFidelidad = tieneTarjetaFidelidad;
-	}
-	
-	public double getSaldoTarjeta() {
-		return saldoTarjeta;
-	}
-
-	public void setSaldoTarjeta(double saldoTarjeta) {
-		this.saldoTarjeta = saldoTarjeta;
-	}
