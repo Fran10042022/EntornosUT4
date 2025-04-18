@@ -1,10 +1,14 @@
 package prueba;
+
+import java.util.Map;
+import java.util.Set;
+
 public class EntornosFactorizar {
     
     
-    public double calculaDato(double precioBase, int cantidad, double descuento, double impuestos, boolean tieneTarjetaFidelidad, double saldoTarjeta, boolean esOfertaEspecial, boolean esNavidad, boolean esMiembroVip, String metodoPago, boolean aplicarCuotas,final int cuota, boolean esEnvioGratis, double precioEnvio, String tipoProducto, String categoriaProducto, String codigoCupon, Usuario usuario) {
+    public double calculaDato(double precioBase, int cantidad, double descuento, double impuestos, boolean esOfertaEspecial, boolean esNavidad, String metodoPago, boolean aplicarCuotas,final int cuota, boolean esEnvioGratis, double precioEnvio, String tipoProducto, String categoriaProducto, String codigoCupon, Usuario usuario) {
        
-        double total = aplicarDescuentosYCargosGenerales(precioBase, cantidad, descuento, tieneTarjetaFidelidad, saldoTarjeta, impuestos, esOfertaEspecial, esNavidad, esMiembroVip,usuario);
+        double total = aplicarDescuentosYCargosGenerales(precioBase, cantidad, descuento, impuestos, esOfertaEspecial, esNavidad,usuario);
 
         if (cuota>0) aplicarCuota(cuota, total);
 
@@ -82,19 +86,19 @@ public class EntornosFactorizar {
     	}
         
     }
-}
+    
     /*
      * Metodo que devuelve el total base con los descuentos principales aplicados
      */
-    private double aplicarDescuentosYCargosGenerales(final double precioBase,final int cantidad,final double descuento,final boolean tieneF,final double saldoTarjeta,final double impuestos,final boolean oferE,final boolean esNavidad,final boolean miembroV) {
+    private double aplicarDescuentosYCargosGenerales(final double precioBase,final int cantidad,final double descuento,final double impuestos,final boolean oferE,final boolean esNavidad, final Usuario usuario) {
 		double total = precioBase * cantidad;
 		
 		if (descuento > 0) {
 			total -= total * (descuento / 100);
 		}
 
-		if (tieneF && saldoTarjeta > 0) {
-			total -= saldoTarjeta;
+		if (usuario.isTieneTarjetaFidelidad() && usuario.getSaldoTarjeta() > 0) {
+			total -= usuario.getSaldoTarjeta();
 		}
 
 		total += total * (impuestos / 100);
@@ -107,7 +111,7 @@ public class EntornosFactorizar {
 			total *= 0.85;
 		}
 
-		if (miembroV) {
+		if (usuario.isEsMiembroVip()) {
 			total *= 0.8;
 		}
 
@@ -119,3 +123,5 @@ public class EntornosFactorizar {
 		}
 				
 	}
+}
+    
