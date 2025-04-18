@@ -12,42 +12,54 @@ public class EntornosFactorizar {
             total *= 1.02;
         }
 
-      
+        if (cuota>0) aplicarCuota(cuota, total);
 
-        //David: Uso switch para optimizar el if que habia anteriormente 
-        // y asi lo simplifico
-        switch (cuota) {
-	        case 3:
-	        	total *= 1.1;
-	        	break;
-	        case 6:
-	        	total *= 1.2;
-	        	break;
-	        case 12:
-	        	total *= 1.3;
-	        	break;
-	        default:
-	        	total *= 1.00;
-	        }
 
-        if (!esEnvioGratis) total += precioEnvio;
+        if (!esEnvioGratis) {
+            total += precioEnvio;
+        }
 
-        if (codigoCupon != null && !codigoCupon.isBlank()) {
+        
+        if (codigoCupon != null && !codigoCupon.isEmpty()) {
             total = aplicarCuponDescuento(total, codigoCupon);
         }
 
-        if (!validarProducto(tipoProducto, categoriaProducto))
+    
+        if (!validarProducto(tipoProducto, categoriaProducto)) {
             throw new IllegalArgumentException("El producto no es válido para esta compra.");
+        }
 
-	/*
- 	* Fran: aplica el descuento del usuario,
-  	* comprueba que no sea negativo,
-   	* devuelve el total con dos decimales
-	*/
-        return Math.round(((usuario != null ? aplicarDescuentoPorUsuario(usuario, Math.max(0, total)) : Math.max(0, total))) * 100.0) / 100.0;
       
+        if (usuario != null) {
+            total = aplicarDescuentoPorUsuario(usuario, total);
+        }
+
+     
+        if (total < 0) {
+            total = 0;
+        }
+
+        return total;
     }
     
+
+	    private static double aplicarCuota(int cuota, double total) {
+    	switch (cuota) {
+			case 3:
+			total *= 1.1;
+			break;
+			case 6:
+			total *= 1.2;
+			break;
+			case 12:
+			total *= 1.3;
+			break;
+			
+			default:
+			System.out.println("Opcion invalida");
+		}
+    	return total;
+    }
   
     private double aplicarCuponDescuento(final double total,final String codigoCupon) { //Elena: hacemos un switch y creamos una variable para optimizar el codigo
 
@@ -74,19 +86,17 @@ public class EntornosFactorizar {
 		return productosValidos.containsKey(tipoProducto) && productosValidos.get(tipoProducto).contains(categoriaProducto);
 	}
 
-    /*
-    * David: Metodo que aplica el descuento segun el enum TipoUsuario 
-    */
-    private static double aplicarDescuentoPorUsuario(Usuario usuario, double total) {
-    	switch (usuario.getTipo()) {
-	        case EMPLEADO: return total * 0.7;
-	        case MIEMBRO_GOLD: return total * 0.85;
-	        case MIEMBRO_SILVER: return total * 0.9;
-	        default: return total;
-    	}
-        
+    private double aplicarDescuentoPorUsuario(Usuario usuario, double total) {
+        if (usuario.esEmpleado()) {
+            total *= 0.7; 
+        } else if (usuario.esMiembroGold()) {
+            total *= 0.85;  
+        } else if (usuario.esMiembroSilver()) {
+            total *= 0.9; 
+        }
+        return total;
     }
-  
+}
     /*
      * Metodo que devuelve el total base con los descuentos principales aplicados
      */
@@ -118,4 +128,3 @@ public class EntornosFactorizar {
 		return total;
 		
 	}
-}
