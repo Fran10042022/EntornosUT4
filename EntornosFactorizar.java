@@ -45,17 +45,13 @@ public class EntornosFactorizar {
             throw new IllegalArgumentException("El producto no es válido para esta compra.");
         }
 
+	/*
+ 	* Fran: aplica el descuento del usuario,
+  	* comprueba que no sea negativo,
+   	* devuelve el total con dos decimales
+	*/
+        return Math.round(((usuario != null ? aplicarDescuentoPorUsuario(usuario, Math.max(0, total)) : Math.max(0, total))) * 100.0) / 100.0;
       
-        if (usuario != null) {
-            total = aplicarDescuentoPorUsuario(usuario, total);
-        }
-
-     
-        if (total < 0) {
-            total = 0;
-        }
-
-        return total;
     }
     
   
@@ -94,7 +90,7 @@ public class EntornosFactorizar {
         }
         return total;
     }
-}
+  
     /*
      * Metodo que devuelve el total base con los descuentos principales aplicados
      */
@@ -126,3 +122,4 @@ public class EntornosFactorizar {
 		return total;
 		
 	}
+}
