@@ -30,20 +30,14 @@ public class EntornosFactorizar {
 	        	total *= 1.00;
 	        }
 
+        if (!esEnvioGratis) total += precioEnvio;
 
-        if (!esEnvioGratis) {
-            total += precioEnvio;
-        }
-
-        
-        if (codigoCupon != null && !codigoCupon.isEmpty()) {
+        if (codigoCupon != null && !codigoCupon.isBlank()) {
             total = aplicarCuponDescuento(total, codigoCupon);
         }
 
-    
-        if (!validarProducto(tipoProducto, categoriaProducto)) {
+        if (!validarProducto(tipoProducto, categoriaProducto))
             throw new IllegalArgumentException("El producto no es válido para esta compra.");
-        }
 
 	/*
  	* Fran: aplica el descuento del usuario,
