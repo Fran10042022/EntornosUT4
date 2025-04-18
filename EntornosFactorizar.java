@@ -8,31 +8,22 @@ public class EntornosFactorizar {
 
         if (cuota>0) aplicarCuota(cuota, total);
 
-        if (!esEnvioGratis) {
-            total += precioEnvio;
-        }
+		if (!esEnvioGratis) total += precioEnvio;
 
-        
-        if (codigoCupon != null && !codigoCupon.isEmpty()) {
+        if (codigoCupon != null && !codigoCupon.isBlank()) {
             total = aplicarCuponDescuento(total, codigoCupon);
         }
 
-    
-        if (!validarProducto(tipoProducto, categoriaProducto)) {
-            throw new IllegalArgumentException("El producto no es válido para esta compra.");
-        }
+        if (!validarProducto(tipoProducto, categoriaProducto))
+            throw new IllegalArgumentException("El producto no es vÃ¡lido para esta compra.");
 
       
-        if (usuario != null) {
-            total = aplicarDescuentoPorUsuario(usuario, total);
-        }
-
-     
-        if (total < 0) {
-            total = 0;
-        }
-
-        return total;
+		/*
+		* Fran: aplica el descuento del usuario,
+		* comprueba que no sea negativo,
+		* devuelve el total con dos decimales
+		*/
+        return Math.round(((usuario != null ? aplicarDescuentoPorUsuario(usuario, Math.max(0, total)) : Math.max(0, total))) * 100.0) / 100.0;
     }
     
 
@@ -79,15 +70,17 @@ public class EntornosFactorizar {
 		return productosValidos.containsKey(tipoProducto) && productosValidos.get(tipoProducto).contains(categoriaProducto);
 	}
 
-    private double aplicarDescuentoPorUsuario(Usuario usuario, double total) {
-        if (usuario.esEmpleado()) {
-            total *= 0.7; 
-        } else if (usuario.esMiembroGold()) {
-            total *= 0.85;  
-        } else if (usuario.esMiembroSilver()) {
-            total *= 0.9; 
-        }
-        return total;
+    /*
+    *David: Metodo que aplica el descuento segun el enum TipoUsuario 
+    */
+    private static double aplicarDescuentoPorUsuario(Usuario usuario, double total) {
+    	switch (usuario.getTipo()) {
+	        case EMPLEADO: return total * 0.7;
+	        case MIEMBRO_GOLD: return total * 0.85;
+	        case MIEMBRO_SILVER: return total * 0.9;
+	        default: return total;
+    	}
+        
     }
 }
     /*
