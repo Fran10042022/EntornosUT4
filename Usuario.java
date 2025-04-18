@@ -9,12 +9,16 @@ public class Usuario {
     private String email;
     private TipoUsuario tipo;
     private MetodoDePago metodoPago;
+    private boolean tieneTarjetaFidelidad;
+    private double saldoTarjeta;
  
-    public Usuario(String nombre, String email, TipoUsuario tipo, MetodoDePago metodoPago) {
+    public Usuario(String nombre, String email, TipoUsuario tipo, MetodoDePago metodoPago, boolean tieneTarjetaFidelidad, double saldoTarjeta) {
         this.nombre = nombre;
         this.email = email;
         this.tipo = tipo;
         this.metodoPago = metodoPago;
+        this.tieneTarjetaFidelidad = tieneTarjetaFidelidad;
+        this.saldoTarjeta = saldoTarjeta;
     }
     
     public String getNombre() {
@@ -32,6 +36,22 @@ public class Usuario {
     public MetodoDePago getMetodoPago() {
         return metodoPago;
     }
+    
+    public boolean isTieneTarjetaFidelidad() {
+		return tieneTarjetaFidelidad;
+	}
+
+	public void setTieneTarjetaFidelidad(boolean tieneTarjetaFidelidad) {
+		this.tieneTarjetaFidelidad = tieneTarjetaFidelidad;
+	}
+	
+	public double getSaldoTarjeta() {
+		return saldoTarjeta;
+	}
+
+	public void setSaldoTarjeta(double saldoTarjeta) {
+		this.saldoTarjeta = saldoTarjeta;
+	}
 
     @Override
     public String toString() {
