@@ -59,13 +59,18 @@ public class EntornosFactorizar {
     }
     
   
-    private double aplicarCuponDescuento(double total, String codigoCupon) {
-        if (codigoCupon.equals("CUPOFF")) {
-            total *= 0.8;
-        } else if (codigoCupon.equals("NAVIDAD2025")) {
-            total *= 0.75;
-        }
-        return total;
+    private double aplicarCuponDescuento(final double total,final String codigoCupon) { //Elena: hacemos un switch y creamos una variable para optimizar el codigo
+
+        final double descuento = switch (codigoCupon) {
+
+            case "CUPOFF" -> 0.8;
+            case "NAVIDAD2025" -> 0.75;
+            default -> 1.0;
+
+        };
+
+        return total * descuento;
+
     }
     private boolean validarProducto(final String tipoProducto,final String categoriaProducto) {//Guille
 		
