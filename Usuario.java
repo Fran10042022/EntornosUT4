@@ -63,6 +63,13 @@ public class Usuario {
 		this.esMiembroVip = esMiembroVip;
 	}
 
+    public double descuentoTarjetaFidelidad(double total) {
+		if (tieneTarjetaFidelidad && saldoTarjeta > 0) {
+			total -= saldoTarjeta;
+		}
+		return total;
+	}
+    
     @Override
     public String toString() {
         return "Usuario{" +

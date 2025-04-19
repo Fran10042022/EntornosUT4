@@ -80,9 +80,7 @@ public class EntornosFactorizar {
 		
 		double total = producto.calcularBase(descuento);
 
-		if (usuario.isTieneTarjetaFidelidad() && usuario.getSaldoTarjeta() > 0) {
-			total -= usuario.getSaldoTarjeta();
-		}
+		total = usuario.descuentoTarjetaFidelidad(total);
 
 		total += total * (impuestos / 100);
 
