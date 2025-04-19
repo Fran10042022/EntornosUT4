@@ -24,7 +24,7 @@ public class EntornosFactorizar {
 		* comprueba que no sea negativo,
 		* devuelve el total con dos decimales
 		*/
-        return Math.round(((usuario != null ? aplicarDescuentoPorUsuario(usuario, Math.max(0, total)) : Math.max(0, total))) * 100.0) / 100.0;
+        return Math.round(((usuario != null ? aplicarDescuentoPorUsuario(usuario.getTipo(), Math.max(0, total)) : Math.max(0, total))) * 100.0) / 100.0;
     }
     
 
@@ -63,14 +63,17 @@ public class EntornosFactorizar {
     /*
     *David: Metodo que aplica el descuento segun el enum TipoUsuario 
     */
-    private static double aplicarDescuentoPorUsuario(Usuario usuario, double total) {
-    	switch (usuario.getTipo()) {
-	        case EMPLEADO: return total * 0.7;
-	        case MIEMBRO_GOLD: return total * 0.85;
-	        case MIEMBRO_SILVER: return total * 0.9;
-	        default: return total;
-    	}
+    private static double aplicarDescuentoPorUsuario(final TipoUsuario tipo, final double total) {
+    	final double descuento = 
+    	switch (tipo) {
+	        case EMPLEADO -> 0.7;
+	        case MIEMBRO_GOLD -> 0.85;
+	        case MIEMBRO_SILVER -> 0.9;
+	        case REGULAR -> 1.0;
+	        default -> throw new IllegalArgumentException("Tipo de usuario no encontrado.");
+    	};
         
+    	return total * descuento;
     }
     
     /*
