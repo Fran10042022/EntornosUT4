@@ -13,7 +13,7 @@ public class Usuario {
     private double saldoTarjeta;
     private boolean esMiembroVip;
  
-    public Usuario(String nombre, String email, TipoUsuario tipo, MetodoDePago metodoPago, boolean tarjetaF, double saldoTarjeta, boolean esMiembroVip) {
+    public Usuario(final String nombre, final String email, final TipoUsuario tipo, final MetodoDePago metodoPago, final boolean tarjetaF, final double saldoTarjeta, final boolean esMiembroVip) {
         this.nombre = nombre;
         this.email = email;
         this.tipo = tipo;
