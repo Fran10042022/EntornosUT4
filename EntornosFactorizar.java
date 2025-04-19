@@ -69,9 +69,13 @@ public class EntornosFactorizar {
 
     }
 
-        /*
-	    * David: Metodo que aplica el descuento segun el enum TipoUsuario 
+        
+		/*
+	    * David:
+		* Llammaos al enum creado anteriormente y creamos una variable que el resultado depende de
+		* el tipo de Usuario
 	    */
+
 	    private static double aplicarDescuentoPorUsuario(final TipoUsuario tipo, final double total) {
 	    	final double descuento = 
 	    	switch (tipo) {
