@@ -43,8 +43,13 @@ public class EntornosFactorizar {
         }
         return totalCuota;
     }
-  
-    private double aplicarCuponDescuento(final double total,final String codigoCupon) { //Elena: hacemos un switch y creamos una variable para optimizar el codigo
+
+    /*
+    * Elena: 
+    * aplica el descuento al total,
+    * segun el codigo de cupon recibido 
+    */
+    private double aplicarCuponDescuento(final double total,final String codigoCupon) { 
 
         final double descuento = switch (codigoCupon) {
 
