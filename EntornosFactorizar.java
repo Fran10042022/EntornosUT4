@@ -58,37 +58,36 @@ public class EntornosFactorizar {
 
     }
 
-    /*
-    *David: Metodo que aplica el descuento segun el enum TipoUsuario 
-    */
-    private static double aplicarDescuentoPorUsuario(final TipoUsuario tipo, final double total) {
-    	final double descuento = 
-    	switch (tipo) {
-	        case EMPLEADO -> 0.7;
-	        case MIEMBRO_GOLD -> 0.85;
-	        case MIEMBRO_SILVER -> 0.9;
-	        case REGULAR -> 1.0;
-	        default -> throw new IllegalArgumentException("Tipo de usuario no encontrado.");
-    	};
-        
-    	return total * descuento;
-    }
-    
-    /*
-     * Metodo que devuelve el total base con los descuentos principales aplicados
-     */
-    private double aplicarDescuentosYCargosGenerales(final Producto producto, final double descuento,final double impuestos,final boolean oferE,final boolean esNavidad, final Usuario usuario) {
-		
-		double total = producto.calcularBase(descuento);
+        /*
+	    *David: Metodo que aplica el descuento segun el enum TipoUsuario 
+	    */
+	    private static double aplicarDescuentoPorUsuario(final TipoUsuario tipo, final double total) {
+	    	final double descuento = 
+	    	switch (tipo) {
+		        case EMPLEADO -> 0.7;
+		        case MIEMBRO_GOLD -> 0.85;
+		        case MIEMBRO_SILVER -> 0.9;
+		        case REGULAR -> 1.0;
+	    	};
+	        
+	    	return total * descuento;
+	    }
+	    
+	    /*
+	     * Fran: Metodo que devuelve el total base con los descuentos principales aplicados
+	     */
+	    private double aplicarDescuentosYCargosGenerales(final Producto producto, final double descuento,final double impuestos,final boolean oferE,final boolean esNavidad, final Usuario usuario) {
+			
+			double total = producto.calcularBase(descuento);
 
-		total = usuario.descuentoTarjetaFidelidad(total);
+			total = usuario.descuentoTarjetaFidelidad(total);
 
-		total += total * (impuestos / 100);
+			total += total * (impuestos / 100);
 
-		total = usuario.calcularDescuentos(total, oferE, esNavidad);
+			total = usuario.calcularDescuentos(total, oferE, esNavidad);
 
-		return usuario.recargoMetodoPago(total);
-				
-	}
+			return usuario.recargoMetodoPago(total);
+					
+	    }
 }
     
