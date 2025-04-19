@@ -86,6 +86,15 @@ public class Usuario {
 		
 		return total;
 	}
+
+    public double recargoMetodoPago(double total) {
+		switch (metodoPago) {
+	        case TARJETACREDITO: return total * 1.05;
+	        case PAYPAL: return total * 1.02;
+	        case EFECTIVO: return total;
+	        default: throw new IllegalArgumentException("Metodo de Pago Invalido");
+		}
+	}
     
     @Override
     public String toString() {

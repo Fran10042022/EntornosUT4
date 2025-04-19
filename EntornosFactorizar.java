@@ -86,12 +86,7 @@ public class EntornosFactorizar {
 
 		total = usuario.calcularDescuentos(total, oferE, esNavidad);
 
-		switch (usuario.getMetodoPago()) {
-	        case TARJETACREDITO: return total * 1.05;
-	        case PAYPAL: return total * 1.02;
-	        case EFECTIVO: return total;
-	        default: throw new IllegalArgumentException("Metodo de Pago Invalido");
-		}
+		return usuario.recargoMetodoPago(total);
 				
 	}
 }
