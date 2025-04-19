@@ -1,4 +1,4 @@
-cpackage prueba;
+package prueba;
 
 public class EntornosFactorizar {
     
@@ -8,7 +8,7 @@ public class EntornosFactorizar {
 
         if (cuota>0) { total =aplicarCuota(cuota, total);}
 
-		if (!esEnvioGratis) { total += producto.getPrecioEnvio();}
+		    if (!esEnvioGratis) { total += producto.getPrecioEnvio();}
 
         if (codigoCupon != null && !codigoCupon.isBlank()) {
             total = aplicarCuponDescuento(total, codigoCupon);
