@@ -68,14 +68,24 @@ public class Producto {
 		
 	}
 	
+	/*
+	* David:
+	* Usamos Set para quitar los duplicados y el .of para meter datos por defecto que no se puedan modificar
+	* Con el Map ponemos un String que sería electronico y ropa y luego llamamos al set con Set<String>
+	* Retornamos comparando la clave del map devolviendo la validacion del producto
+	*/
+
 	public boolean validarProducto() {
 
-		final Set<String> categoriasElec = Set.of("Smartphones");
+		final Set<String> categoriasElec = Set.of("Smartphones"); 
 		final Set<String> categoriasRopa = Set.of("Hombre", "Mujer");
+
+		
 
 		final Map<String, Set<String>> productValid = Map.of(
 				"Electronico", categoriasElec,
 				"Ropa",categoriasRopa);
+
 
 		return productValid.containsKey(tipoProducto) && productValid.get(tipoProducto).contains(categoriaProducto);
     }
