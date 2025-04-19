@@ -63,39 +63,44 @@ public class Usuario {
 		this.esMiembroVip = esMiembroVip;
 	}
 
-    public double descuentoTarjetaFidelidad(double total) {
+    public double descuentoTarjetaFidelidad(final double total) {
+		double resultado = total;
+		
 		if (tieneTarjetaFidelidad && saldoTarjeta > 0) {
-			total -= saldoTarjeta;
+			resultado -= saldoTarjeta;
 		}
-		return total;
+		return resultado;
 	}
 
-    public double calcularDescuentos(double total, boolean oferE, boolean esNavidad) {
+    public double calcularDescuentos(final double total,final boolean oferE,final boolean esNavidad) {
 		
-		if (oferE) {
-			total *= 0.9;
-		}
+		double resultado = total;
 
-		if (esNavidad) {
-			total *= 0.85;
-		}
+	    if (oferE) {
+	        resultado *= 0.9;
+	    }
 
-		if (esMiembroVip) {
-			total *= 0.8;
-		}
-		
-		return total;
+	    if (esNavidad) {
+	        resultado *= 0.85;
+	    }
+
+	    if (esMiembroVip) {
+	        resultado *= 0.8;
+	    }
+
+	    return resultado;
 	}
 
-    public double recargoMetodoPago(double total) {
-		switch (metodoPago) {
-	        case TARJETACREDITO: return total * 1.05;
-	        case PAYPAL: return total * 1.02;
-	        case EFECTIVO: return total;
-	        default: throw new IllegalArgumentException("Metodo de Pago Invalido");
-		}
+    public double recargoMetodoPago(final double total) {
+		final double descuento = switch (metodoPago) {
+	        case TARJETACREDITO -> 0.7;
+	        case PAYPAL -> 0.85;
+	        case EFECTIVO -> 0.9;
+		};
+	
+		return total * descuento;
 	}
-    
+
     @Override
     public String toString() {
         return "Usuario{" +
