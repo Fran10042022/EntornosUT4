@@ -2,21 +2,20 @@ package prueba;
 
 public class EntornosFactorizar {
     
-    
-    public double calculaDato(Producto producto, double descuento, double impuestos, boolean esOfertaEspecial, boolean esNavidad, int cuota, boolean esEnvioGratis, String codigoCupon, Usuario usuario) {
+   public double calculaDato(final Producto producto, final double descuento,final double impuestos,final boolean esOfertaEspecial,final boolean esNavidad,final int cuota,final boolean esEnvioGratis,final String codigoCupon,final Usuario usuario) {//El pmd hace falso positivo con el comentario
        
         double total = aplicarDescuentosYCargosGenerales(producto, descuento, impuestos, esOfertaEspecial, esNavidad, usuario);
 
-        if (cuota > 0) total = aplicarCuota(cuota, total);
+        if (cuota>0) { total =aplicarCuota(cuota, total);}
 
-		if (!esEnvioGratis) total += producto.getPrecioEnvio();
+		    if (!esEnvioGratis) { total += producto.getPrecioEnvio();}
 
         if (codigoCupon != null && !codigoCupon.isBlank()) {
             total = aplicarCuponDescuento(total, codigoCupon);
         }
 
-        if (!producto.validarProducto())
-            throw new IllegalArgumentException("El producto no es vÃ¡lido para esta compra.");
+        if (!producto.validarProducto()) {
+            throw new IllegalArgumentException("El producto no es vÃ¡lido para esta compra.");}
 
       
 		/*
@@ -26,24 +25,23 @@ public class EntornosFactorizar {
 		*/
         return Math.round(((usuario != null ? aplicarDescuentoPorUsuario(usuario.getTipo(), Math.max(0, total)) : Math.max(0, total))) * 100.0) / 100.0;
     }
-    
 
-	    private static double aplicarCuota(int cuota, double total) {
-    	switch (cuota) {
-			case 3:
-			total *= 1.1;
-			break;
-			case 6:
-			total *= 1.2;
-			break;
-			case 12:
-			total *= 1.3;
-			break;
-			
-			default:
-			System.out.println("Opcion invalida");
-		}
-    	return total;
+	private static double aplicarCuota(final int cuota,final double total) {
+    	 double totalCuota =total;
+        switch (cuota) {
+            case 3:
+            	totalCuota *= 1.1;
+                break;
+            case 6:
+            	totalCuota *= 1.2;
+                break;
+            case 12:
+            	totalCuota *= 1.3;
+                break;
+            default:
+                throw new IllegalArgumentException("Cuota no válida: " + cuota);
+        }
+        return totalCuota;
     }
   
     private double aplicarCuponDescuento(final double total,final String codigoCupon) { //Elena: hacemos un switch y creamos una variable para optimizar el codigo
