@@ -18,7 +18,7 @@ public class Usuario {
         this.email = email;
         this.tipo = tipo;
         this.metodoPago = metodoPago;
-        this.tieneTarjetaFidelidad = tieneTarjetaFidelidad;
+        this.tarjetaF = tarjetaF;
         this.saldoTarjeta = saldoTarjeta;
         this.esMiembroVip = esMiembroVip;
     }
