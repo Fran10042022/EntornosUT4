@@ -57,6 +57,11 @@ public class Producto {
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
 	}
+
+	public double calcularBase() {
+		return precioBase * cantidad;
+		
+	}
 	
 	boolean validarProducto() {
 		Set<String> categoriasElectronico = Set.of("Smartphones");

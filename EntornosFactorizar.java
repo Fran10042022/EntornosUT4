@@ -77,7 +77,7 @@ public class EntornosFactorizar {
      * Metodo que devuelve el total base con los descuentos principales aplicados
      */
     private double aplicarDescuentosYCargosGenerales(final Producto producto, final double descuento,final double impuestos,final boolean oferE,final boolean esNavidad, final Usuario usuario) {
-		double total = producto.getPrecioBase() * producto.getCantidad();
+		double total = producto.calcularBase();
 		
 		if (descuento > 0) {
 			total -= total * (descuento / 100);
