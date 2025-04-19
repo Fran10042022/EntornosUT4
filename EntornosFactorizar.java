@@ -7,7 +7,7 @@ public class EntornosFactorizar {
        
         double total = aplicarDescuentosYCargosGenerales(producto, descuento, impuestos, esOfertaEspecial, esNavidad, usuario);
 
-        if (cuota>0) aplicarCuota(cuota, total);
+        if (cuota > 0) total = aplicarCuota(cuota, total);
 
 		if (!esEnvioGratis) total += producto.getPrecioEnvio();
 
