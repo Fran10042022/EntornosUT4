@@ -9,11 +9,11 @@ public class Usuario {
     private String email;
     private TipoUsuario tipo;
     private MetodoDePago metodoPago;
-    private boolean tieneTarjetaFidelidad;
+    private boolean tarjetaF;
     private double saldoTarjeta;
     private boolean esMiembroVip;
  
-    public Usuario(String nombre, String email, TipoUsuario tipo, MetodoDePago metodoPago, boolean tieneTarjetaFidelidad, double saldoTarjeta, boolean esMiembroVip) {
+    public Usuario(String nombre, String email, TipoUsuario tipo, MetodoDePago metodoPago, boolean tarjetaF, double saldoTarjeta, boolean esMiembroVip) {
         this.nombre = nombre;
         this.email = email;
         this.tipo = tipo;
@@ -39,12 +39,12 @@ public class Usuario {
         return metodoPago;
     }
     
-    public boolean isTieneTarjetaFidelidad() {
-		return tieneTarjetaFidelidad;
+    public boolean istTarjetaF() {
+		return tarjetaF;
 	}
 
-	public void setTieneTarjetaFidelidad(boolean tieneTarjetaFidelidad) {
-		this.tieneTarjetaFidelidad = tieneTarjetaFidelidad;
+	public void setTarjetaF(boolean tarjetaF) {
+		this.tarjetaF = tarjetaF;
 	}
 	
 	public double getSaldoTarjeta() {
@@ -66,7 +66,7 @@ public class Usuario {
     public double descuentoTarjetaFidelidad(final double total) {
 		double resultado = total;
 		
-		if (tieneTarjetaFidelidad && saldoTarjeta > 0) {
+		if (tarjetaF && saldoTarjeta > 0) {
 			resultado -= saldoTarjeta;
 		}
 		return resultado;
