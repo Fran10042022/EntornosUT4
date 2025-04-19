@@ -43,7 +43,7 @@ public class Usuario {
 		return tarjetaF;
 	}
 
-	public void setTarjetaF(boolean tarjetaF) {
+	public void setTarjetaF(final boolean tarjetaF) {
 		this.tarjetaF = tarjetaF;
 	}
 	
@@ -51,7 +51,7 @@ public class Usuario {
 		return saldoTarjeta;
 	}
 
-	public void setSaldoTarjeta(double saldoTarjeta) {
+	public void setSaldoTarjeta(final double saldoTarjeta) {
 		this.saldoTarjeta = saldoTarjeta;
 	}
 
@@ -59,7 +59,7 @@ public class Usuario {
 		return esMiembroVip;
 	}
 
-	public void setEsMiembroVip(boolean esMiembroVip) {
+	public void setEsMiembroVip(final boolean esMiembroVip) {
 		this.esMiembroVip = esMiembroVip;
 	}
 
