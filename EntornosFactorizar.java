@@ -77,11 +77,8 @@ public class EntornosFactorizar {
      * Metodo que devuelve el total base con los descuentos principales aplicados
      */
     private double aplicarDescuentosYCargosGenerales(final Producto producto, final double descuento,final double impuestos,final boolean oferE,final boolean esNavidad, final Usuario usuario) {
-		double total = producto.calcularBase();
 		
-		if (descuento > 0) {
-			total -= total * (descuento / 100);
-		}
+		double total = producto.calcularBase(descuento);
 
 		if (usuario.isTieneTarjetaFidelidad() && usuario.getSaldoTarjeta() > 0) {
 			total -= usuario.getSaldoTarjeta();

@@ -58,8 +58,13 @@ public class Producto {
 		this.cantidad = cantidad;
 	}
 
-	public double calcularBase() {
-		return precioBase * cantidad;
+	public double calcularBase(double descuento) {
+		double total = precioBase * cantidad;
+		
+		if (descuento > 0) {
+			total -= total * (descuento / 100);
+		}
+		return total;
 		
 	}
 	
