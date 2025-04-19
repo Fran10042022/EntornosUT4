@@ -20,7 +20,7 @@ public class EntornosFactorizar {
         }
 
         if (!producto.validarProducto()) {
-            throw new IllegalArgumentException("El producto no es vÃ¡lido para esta compra.");}
+            throw new IllegalArgumentException("El producto invalido para esta compra.");}
 
       
 		/*
