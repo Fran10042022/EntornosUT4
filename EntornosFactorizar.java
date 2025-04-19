@@ -26,22 +26,22 @@ public class EntornosFactorizar {
         return Math.round(((usuario != null ? aplicarDescuentoPorUsuario(usuario.getTipo(), Math.max(0, total)) : Math.max(0, total))) * 100.0) / 100.0;
     }
 
-	    private static double aplicarCuota(int cuota, double total) {
-    	switch (cuota) {
-			case 3:
-			total *= 1.1;
-			break;
-			case 6:
-			total *= 1.2;
-			break;
-			case 12:
-			total *= 1.3;
-			break;
-			
-			default:
-			System.out.println("Opcion invalida");
-		}
-    	return total;
+	private static double aplicarCuota(final int cuota,final double total) {
+    	 double totalCuota =total;
+        switch (cuota) {
+            case 3:
+            	totalCuota *= 1.1;
+                break;
+            case 6:
+            	totalCuota *= 1.2;
+                break;
+            case 12:
+            	totalCuota *= 1.3;
+                break;
+            default:
+                throw new IllegalArgumentException("Cuota no válida: " + cuota);
+        }
+        return totalCuota;
     }
   
     private double aplicarCuponDescuento(final double total,final String codigoCupon) { //Elena: hacemos un switch y creamos una variable para optimizar el codigo
