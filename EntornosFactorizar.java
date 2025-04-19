@@ -2,7 +2,11 @@ package prueba;
 
 public class EntornosFactorizar {
     
-	
+	/*
+	* Fran:
+	* Calcula el coste final de un producto segun los rangos
+	* del Usuario aplicando asi los descuentos y cargos pertinentes
+	*/
    public double calculaDato(final Producto producto, final double descuento,final double impuestos,final boolean esOfertaEspecial,final boolean esNavidad,final int cuota,final boolean esEnvioGratis,final String codigoCupon,final Usuario usuario) {//El pmd hace falso positivo con el comentario
        
         double total = aplicarDescuentosYCargosGenerales(producto, descuento, impuestos, esOfertaEspecial, esNavidad, usuario);
