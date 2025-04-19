@@ -69,6 +69,23 @@ public class Usuario {
 		}
 		return total;
 	}
+
+    public double calcularDescuentos(double total, boolean oferE, boolean esNavidad) {
+		
+		if (oferE) {
+			total *= 0.9;
+		}
+
+		if (esNavidad) {
+			total *= 0.85;
+		}
+
+		if (esMiembroVip) {
+			total *= 0.8;
+		}
+		
+		return total;
+	}
     
     @Override
     public String toString() {

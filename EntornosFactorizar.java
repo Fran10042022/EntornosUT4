@@ -84,17 +84,7 @@ public class EntornosFactorizar {
 
 		total += total * (impuestos / 100);
 
-		if (oferE) {
-			total *= 0.9;
-		}
-
-		if (esNavidad) {
-			total *= 0.85;
-		}
-
-		if (usuario.isEsMiembroVip()) {
-			total *= 0.8;
-		}
+		total = usuario.calcularDescuentos(total, oferE, esNavidad);
 
 		switch (usuario.getMetodoPago()) {
 	        case TARJETACREDITO: return total * 1.05;
