@@ -9,12 +9,18 @@ public class Usuario {
     private String email;
     private TipoUsuario tipo;
     private MetodoDePago metodoPago;
+    private boolean tarjetaF;
+    private double saldoTarjeta;
+    private boolean esMiembroVip;
  
-    public Usuario(String nombre, String email, TipoUsuario tipo, MetodoDePago metodoPago) {
+    public Usuario(String nombre, String email, TipoUsuario tipo, MetodoDePago metodoPago, boolean tarjetaF, double saldoTarjeta, boolean esMiembroVip) {
         this.nombre = nombre;
         this.email = email;
         this.tipo = tipo;
         this.metodoPago = metodoPago;
+        this.tieneTarjetaFidelidad = tieneTarjetaFidelidad;
+        this.saldoTarjeta = saldoTarjeta;
+        this.esMiembroVip = esMiembroVip;
     }
     
     public String getNombre() {
@@ -32,6 +38,68 @@ public class Usuario {
     public MetodoDePago getMetodoPago() {
         return metodoPago;
     }
+    
+    public boolean istTarjetaF() {
+		return tarjetaF;
+	}
+
+	public void setTarjetaF(boolean tarjetaF) {
+		this.tarjetaF = tarjetaF;
+	}
+	
+	public double getSaldoTarjeta() {
+		return saldoTarjeta;
+	}
+
+	public void setSaldoTarjeta(double saldoTarjeta) {
+		this.saldoTarjeta = saldoTarjeta;
+	}
+
+    public boolean isEsMiembroVip() {
+		return esMiembroVip;
+	}
+
+	public void setEsMiembroVip(boolean esMiembroVip) {
+		this.esMiembroVip = esMiembroVip;
+	}
+
+    public double descuentoTarjetaFidelidad(final double total) {
+		double resultado = total;
+		
+		if (tarjetaF && saldoTarjeta > 0) {
+			resultado -= saldoTarjeta;
+		}
+		return resultado;
+	}
+
+    public double calcularDescuentos(final double total,final boolean oferE,final boolean esNavidad) {
+		
+		double resultado = total;
+
+	    if (oferE) {
+	        resultado *= 0.9;
+	    }
+
+	    if (esNavidad) {
+	        resultado *= 0.85;
+	    }
+
+	    if (esMiembroVip) {
+	        resultado *= 0.8;
+	    }
+
+	    return resultado;
+	}
+
+    public double recargoMetodoPago(final double total) {
+		final double descuento = switch (metodoPago) {
+	        case TARJETACREDITO -> 0.7;
+	        case PAYPAL -> 0.85;
+	        case EFECTIVO -> 0.9;
+		};
+	
+		return total * descuento;
+	}
 
     @Override
     public String toString() {

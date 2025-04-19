@@ -1,20 +1,21 @@
 package prueba;
+
 public class EntornosFactorizar {
     
     
-    public double calculaDato(double precioBase, int cantidad, double descuento, double impuestos, boolean tieneTarjetaFidelidad, double saldoTarjeta, boolean esOfertaEspecial, boolean esNavidad, boolean esMiembroVip, String metodoPago, boolean aplicarCuotas,final int cuota, boolean esEnvioGratis, double precioEnvio, String tipoProducto, String categoriaProducto, String codigoCupon, Usuario usuario) {
+    public double calculaDato(Producto producto, double descuento, double impuestos, boolean esOfertaEspecial, boolean esNavidad, int cuota, boolean esEnvioGratis, String codigoCupon, Usuario usuario) {
        
-        double total = aplicarDescuentosYCargosGenerales(precioBase, cantidad, descuento, tieneTarjetaFidelidad, saldoTarjeta, impuestos, esOfertaEspecial, esNavidad, esMiembroVip,usuario);
+        double total = aplicarDescuentosYCargosGenerales(producto, descuento, impuestos, esOfertaEspecial, esNavidad, usuario);
 
         if (cuota>0) aplicarCuota(cuota, total);
 
-		if (!esEnvioGratis) total += precioEnvio;
+		if (!esEnvioGratis) total += producto.getPrecioEnvio();
 
         if (codigoCupon != null && !codigoCupon.isBlank()) {
             total = aplicarCuponDescuento(total, codigoCupon);
         }
 
-        if (!validarProducto(tipoProducto, categoriaProducto))
+        if (!producto.validarProducto())
             throw new IllegalArgumentException("El producto no es vÃ¡lido para esta compra.");
 
       
@@ -23,7 +24,7 @@ public class EntornosFactorizar {
 		* comprueba que no sea negativo,
 		* devuelve el total con dos decimales
 		*/
-        return Math.round(((usuario != null ? aplicarDescuentoPorUsuario(usuario, Math.max(0, total)) : Math.max(0, total))) * 100.0) / 100.0;
+        return Math.round(((usuario != null ? aplicarDescuentoPorUsuario(usuario.getTipo(), Math.max(0, total)) : Math.max(0, total))) * 100.0) / 100.0;
     }
     
 
@@ -58,64 +59,38 @@ public class EntornosFactorizar {
         return total * descuento;
 
     }
-    private boolean validarProducto(final String tipoProducto,final String categoriaProducto) {//Guille
-		
-	final Set<String> categoriasElec = Set.of("Smartphones");
-	final Set<String> categoriasRopa = Set.of("Hombre", "Mujer");
-
-	final Map<String, Set<String>> productosValidos = Map.of(
-				"Electronico", categoriasElec,
-				"Ropa",categoriasRopa);
-
-		return productosValidos.containsKey(tipoProducto) && productosValidos.get(tipoProducto).contains(categoriaProducto);
-	}
 
     /*
     *David: Metodo que aplica el descuento segun el enum TipoUsuario 
     */
-    private static double aplicarDescuentoPorUsuario(Usuario usuario, double total) {
-    	switch (usuario.getTipo()) {
-	        case EMPLEADO: return total * 0.7;
-	        case MIEMBRO_GOLD: return total * 0.85;
-	        case MIEMBRO_SILVER: return total * 0.9;
-	        default: return total;
-    	}
+    private static double aplicarDescuentoPorUsuario(final TipoUsuario tipo, final double total) {
+    	final double descuento = 
+    	switch (tipo) {
+	        case EMPLEADO -> 0.7;
+	        case MIEMBRO_GOLD -> 0.85;
+	        case MIEMBRO_SILVER -> 0.9;
+	        case REGULAR -> 1.0;
+	        default -> throw new IllegalArgumentException("Tipo de usuario no encontrado.");
+    	};
         
+    	return total * descuento;
     }
-}
+    
     /*
      * Metodo que devuelve el total base con los descuentos principales aplicados
      */
-    private double aplicarDescuentosYCargosGenerales(final double precioBase,final int cantidad,final double descuento,final boolean tieneF,final double saldoTarjeta,final double impuestos,final boolean oferE,final boolean esNavidad,final boolean miembroV) {
-		double total = precioBase * cantidad;
+    private double aplicarDescuentosYCargosGenerales(final Producto producto, final double descuento,final double impuestos,final boolean oferE,final boolean esNavidad, final Usuario usuario) {
 		
-		if (descuento > 0) {
-			total -= total * (descuento / 100);
-		}
+		double total = producto.calcularBase(descuento);
 
-		if (tieneF && saldoTarjeta > 0) {
-			total -= saldoTarjeta;
-		}
+		total = usuario.descuentoTarjetaFidelidad(total);
 
 		total += total * (impuestos / 100);
 
-		if (oferE) {
-			total *= 0.9;
-		}
+		total = usuario.calcularDescuentos(total, oferE, esNavidad);
 
-		if (esNavidad) {
-			total *= 0.85;
-		}
-
-		if (miembroV) {
-			total *= 0.8;
-		}
-
-		switch (usuario.getMetodoPago()) {
-	        case TARJETACREDITO: return total * 1.05;
-	        case PAYPAL: return total * 1.02;
-	        case EFECTIVO: return total;
-	        default: throw new IllegalArgumentException("Metodo de Pago Invalido");
-		}
+		return usuario.recargoMetodoPago(total);
 				
 	}
+}
+    
