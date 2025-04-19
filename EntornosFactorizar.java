@@ -1,22 +1,21 @@
-package prueba;
+cpackage prueba;
 
 public class EntornosFactorizar {
     
-    
-    public double calculaDato(Producto producto, double descuento, double impuestos, boolean esOfertaEspecial, boolean esNavidad, int cuota, boolean esEnvioGratis, String codigoCupon, Usuario usuario) {
+   public double calculaDato(final Producto producto, final double descuento,final double impuestos,final boolean esOfertaEspecial,final boolean esNavidad,final int cuota,final boolean esEnvioGratis,final String codigoCupon,final Usuario usuario) {//El pmd hace falso positivo con el comentario
        
         double total = aplicarDescuentosYCargosGenerales(producto, descuento, impuestos, esOfertaEspecial, esNavidad, usuario);
 
-        if (cuota>0) aplicarCuota(cuota, total);
+        if (cuota>0) { total =aplicarCuota(cuota, total);}
 
-		if (!esEnvioGratis) total += producto.getPrecioEnvio();
+		if (!esEnvioGratis) { total += producto.getPrecioEnvio();}
 
         if (codigoCupon != null && !codigoCupon.isBlank()) {
             total = aplicarCuponDescuento(total, codigoCupon);
         }
 
-        if (!producto.validarProducto())
-            throw new IllegalArgumentException("El producto no es vÃ¡lido para esta compra.");
+        if (!producto.validarProducto()) {
+            throw new IllegalArgumentException("El producto no es vÃ¡lido para esta compra.");}
 
       
 		/*
@@ -26,7 +25,6 @@ public class EntornosFactorizar {
 		*/
         return Math.round(((usuario != null ? aplicarDescuentoPorUsuario(usuario.getTipo(), Math.max(0, total)) : Math.max(0, total))) * 100.0) / 100.0;
     }
-    
 
 	    private static double aplicarCuota(int cuota, double total) {
     	switch (cuota) {
