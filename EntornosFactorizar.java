@@ -25,8 +25,9 @@ public class EntornosFactorizar {
       
 		/*
 		* Fran: aplica el descuento del usuario,
-		* comprueba que no sea negativo,
-		* devuelve el total con dos decimales
+		* comprueba que no sea negativo
+		* 
+		* @total con dos decimales
 		*/
         return Math.round(((usuario != null ? aplicarDescuentoPorUsuario(usuario.getTipo(), Math.max(0, total)) : Math.max(0, total))) * 100.0) / 100.0;
     }
