@@ -31,7 +31,10 @@ public class EntornosFactorizar {
 		*/
         return Math.round(((usuario != null ? aplicarDescuentoPorUsuario(usuario.getTipo(), Math.max(0, total)) : Math.max(0, total))) * 100.0) / 100.0;
     }
-
+	
+   /*
+    *Guille:  aplica segun su cuota se calculara su total 
+    */
 	private static double aplicarCuota(final int cuota,final double total) {
     	 double totalCuota =total;
         switch (cuota) {
