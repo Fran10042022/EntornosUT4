@@ -69,14 +69,15 @@ public class Producto {
 	}
 	
 	public boolean validarProducto() {
-		Set<String> categoriasElectronico = Set.of("Smartphones");
-		Set<String> categoriasRopa = Set.of("Hombre", "Mujer");
 
-		Map<String, Set<String>> productosValidos = Map.of(
-				"Electronico", categoriasElectronico,
+		final Set<String> categoriasElec = Set.of("Smartphones");
+		final Set<String> categoriasRopa = Set.of("Hombre", "Mujer");
+
+		final Map<String, Set<String>> productValid = Map.of(
+				"Electronico", categoriasElec,
 				"Ropa",categoriasRopa);
 
-		return productosValidos.containsKey(tipoProducto) && productosValidos.get(tipoProducto).contains(categoriaProducto);
+		return productValid.containsKey(tipoProducto) && productValid.get(tipoProducto).contains(categoriaProducto);
     }
 
 }
