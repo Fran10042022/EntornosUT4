@@ -2,6 +2,11 @@ package prueba;
 
 public class EntornosFactorizar {
     
+	/*
+	* Fran:
+	* Calcula el coste final de un producto segun los rangos
+	* del Usuario aplicando asi los descuentos y cargos pertinentes
+	*/
    public double calculaDato(final Producto producto, final double descuento,final double impuestos,final boolean esOfertaEspecial,final boolean esNavidad,final int cuota,final boolean esEnvioGratis,final String codigoCupon,final Usuario usuario) {//El pmd hace falso positivo con el comentario
        
         double total = aplicarDescuentosYCargosGenerales(producto, descuento, impuestos, esOfertaEspecial, esNavidad, usuario);
@@ -20,8 +25,9 @@ public class EntornosFactorizar {
       
 		/*
 		* Fran: aplica el descuento del usuario,
-		* comprueba que no sea negativo,
-		* devuelve el total con dos decimales
+		* comprueba que no sea negativo
+		* 
+		* @total con dos decimales
 		*/
         return Math.round(((usuario != null ? aplicarDescuentoPorUsuario(usuario.getTipo(), Math.max(0, total)) : Math.max(0, total))) * 100.0) / 100.0;
     }
@@ -64,7 +70,7 @@ public class EntornosFactorizar {
     }
 
         /*
-	    *David: Metodo que aplica el descuento segun el enum TipoUsuario 
+	    * David: Metodo que aplica el descuento segun el enum TipoUsuario 
 	    */
 	    private static double aplicarDescuentoPorUsuario(final TipoUsuario tipo, final double total) {
 	    	final double descuento = 
@@ -79,7 +85,8 @@ public class EntornosFactorizar {
 	    }
 	    
 	    /*
-	     * Fran: Metodo que devuelve el total base con los descuentos principales aplicados
+	     * Fran: Devuelve el total base con los descuentos 
+		 * y cargos principales aplicados
 	     */
 	    private double aplicarDescuentosYCargosGenerales(final Producto producto, final double descuento,final double impuestos,final boolean oferE,final boolean esNavidad, final Usuario usuario) {
 			
