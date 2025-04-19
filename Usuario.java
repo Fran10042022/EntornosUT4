@@ -63,6 +63,44 @@ public class Usuario {
 		this.esMiembroVip = esMiembroVip;
 	}
 
+    public double descuentoTarjetaFidelidad(final double total) {
+		double resultado = total;
+		
+		if (tieneTarjetaFidelidad && saldoTarjeta > 0) {
+			resultado -= saldoTarjeta;
+		}
+		return resultado;
+	}
+
+    public double calcularDescuentos(final double total,final boolean oferE,final boolean esNavidad) {
+		
+		double resultado = total;
+
+	    if (oferE) {
+	        resultado *= 0.9;
+	    }
+
+	    if (esNavidad) {
+	        resultado *= 0.85;
+	    }
+
+	    if (esMiembroVip) {
+	        resultado *= 0.8;
+	    }
+
+	    return resultado;
+	}
+
+    public double recargoMetodoPago(final double total) {
+		final double descuento = switch (metodoPago) {
+	        case TARJETACREDITO -> 0.7;
+	        case PAYPAL -> 0.85;
+	        case EFECTIVO -> 0.9;
+		};
+	
+		return total * descuento;
+	}
+
     @Override
     public String toString() {
         return "Usuario{" +

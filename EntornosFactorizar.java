@@ -80,36 +80,16 @@ public class EntornosFactorizar {
      * Metodo que devuelve el total base con los descuentos principales aplicados
      */
     private double aplicarDescuentosYCargosGenerales(final Producto producto, final double descuento,final double impuestos,final boolean oferE,final boolean esNavidad, final Usuario usuario) {
-		double total = producto.getPrecioBase() * producto.getCantidad();
 		
-		if (descuento > 0) {
-			total -= total * (descuento / 100);
-		}
+		double total = producto.calcularBase(descuento);
 
-		if (usuario.isTieneTarjetaFidelidad() && usuario.getSaldoTarjeta() > 0) {
-			total -= usuario.getSaldoTarjeta();
-		}
+		total = usuario.descuentoTarjetaFidelidad(total);
 
 		total += total * (impuestos / 100);
 
-		if (oferE) {
-			total *= 0.9;
-		}
+		total = usuario.calcularDescuentos(total, oferE, esNavidad);
 
-		if (esNavidad) {
-			total *= 0.85;
-		}
-
-		if (usuario.isEsMiembroVip()) {
-			total *= 0.8;
-		}
-
-		switch (usuario.getMetodoPago()) {
-	        case TARJETACREDITO: return total * 1.05;
-	        case PAYPAL: return total * 1.02;
-	        case EFECTIVO: return total;
-	        default: throw new IllegalArgumentException("Metodo de Pago Invalido");
-		}
+		return usuario.recargoMetodoPago(total);
 				
 	}
 }

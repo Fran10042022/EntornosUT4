@@ -4,15 +4,15 @@ import java.util.Map;
 import java.util.Set;
 
 public class Producto {
-	private static String tipoProducto;
-	private static String categoriaProducto;
+	private String tipoProducto;
+	private String categoriaProducto;
 	private double precioBase;
 	private double precioEnvio;
 	private int cantidad;
 	
 	public Producto(String tipoProducto, String categoriaProducto, double precioBase, int cantidad, double precioEnvio) {
-		Producto.tipoProducto = tipoProducto;
-		Producto.categoriaProducto = categoriaProducto;
+		this.tipoProducto = tipoProducto;
+		this.categoriaProducto = categoriaProducto;
 		this.precioBase = precioBase;
 		this.cantidad = cantidad;
 		this.precioEnvio = precioEnvio;
@@ -31,7 +31,7 @@ public class Producto {
 	}
 
 	public void setTipoProducto(String tipoProducto) {
-		Producto.tipoProducto = tipoProducto;
+		this.tipoProducto = tipoProducto;
 	}
 
 	public String getCategoriaProducto() {
@@ -39,7 +39,7 @@ public class Producto {
 	}
 
 	public void setCategoriaProducto(String categoriaProducto) {
-		Producto.categoriaProducto = categoriaProducto;
+		this.categoriaProducto = categoriaProducto;
 	}
 
 	public double getPrecioBase() {
@@ -57,8 +57,18 @@ public class Producto {
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
 	}
+
+	public double calcularBase(final double descuento) {
+		double total = precioBase * cantidad;
+		
+		if (descuento > 0) {
+			total -= total * (descuento / 100);
+		}
+		return total;
+		
+	}
 	
-	boolean validarProducto() {
+	public boolean validarProducto() {
 		Set<String> categoriasElectronico = Set.of("Smartphones");
 		Set<String> categoriasRopa = Set.of("Hombre", "Mujer");
 
