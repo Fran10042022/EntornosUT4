@@ -1,38 +1,30 @@
 package prueba;
+
 public class EntornosFactorizar {
     
     
-    public double calculaDato(double precioBase, int cantidad, double descuento, double impuestos, boolean tieneTarjetaFidelidad, double saldoTarjeta, boolean esOfertaEspecial, boolean esNavidad, boolean esMiembroVip, String metodoPago, boolean aplicarCuotas,final int cuota, boolean esEnvioGratis, double precioEnvio, String tipoProducto, String categoriaProducto, String codigoCupon, Usuario usuario) {
+    public double calculaDato(Producto producto, double descuento, double impuestos, boolean esOfertaEspecial, boolean esNavidad, int cuota, boolean esEnvioGratis, String codigoCupon, Usuario usuario) {
        
-        double total = aplicarDescuentosYCargosGenerales(precioBase, cantidad, descuento, tieneTarjetaFidelidad, saldoTarjeta, impuestos, esOfertaEspecial, esNavidad, esMiembroVip,usuario);
+        double total = aplicarDescuentosYCargosGenerales(producto, descuento, impuestos, esOfertaEspecial, esNavidad, usuario);
 
         if (cuota>0) aplicarCuota(cuota, total);
 
-        if (!esEnvioGratis) {
-            total += precioEnvio;
-        }
+		if (!esEnvioGratis) total += producto.getPrecioEnvio();
 
-        
-        if (codigoCupon != null && !codigoCupon.isEmpty()) {
+        if (codigoCupon != null && !codigoCupon.isBlank()) {
             total = aplicarCuponDescuento(total, codigoCupon);
         }
 
-    
-        if (!validarProducto(tipoProducto, categoriaProducto)) {
-            throw new IllegalArgumentException("El producto no es válido para esta compra.");
-        }
+        if (!producto.validarProducto())
+            throw new IllegalArgumentException("El producto no es vÃ¡lido para esta compra.");
 
       
-        if (usuario != null) {
-            total = aplicarDescuentoPorUsuario(usuario, total);
-        }
-
-     
-        if (total < 0) {
-            total = 0;
-        }
-
-        return total;
+		/*
+		* Fran: aplica el descuento del usuario,
+		* comprueba que no sea negativo,
+		* devuelve el total con dos decimales
+		*/
+        return Math.round(((usuario != null ? aplicarDescuentoPorUsuario(usuario, Math.max(0, total)) : Math.max(0, total))) * 100.0) / 100.0;
     }
     
 
@@ -67,41 +59,32 @@ public class EntornosFactorizar {
         return total * descuento;
 
     }
-    private boolean validarProducto(final String tipoProducto,final String categoriaProducto) {//Guille
-		
-	final Set<String> categoriasElec = Set.of("Smartphones");
-	final Set<String> categoriasRopa = Set.of("Hombre", "Mujer");
 
-	final Map<String, Set<String>> productosValidos = Map.of(
-				"Electronico", categoriasElec,
-				"Ropa",categoriasRopa);
-
-		return productosValidos.containsKey(tipoProducto) && productosValidos.get(tipoProducto).contains(categoriaProducto);
-	}
-
-    private double aplicarDescuentoPorUsuario(Usuario usuario, double total) {
-        if (usuario.esEmpleado()) {
-            total *= 0.7; 
-        } else if (usuario.esMiembroGold()) {
-            total *= 0.85;  
-        } else if (usuario.esMiembroSilver()) {
-            total *= 0.9; 
-        }
-        return total;
+    /*
+    *David: Metodo que aplica el descuento segun el enum TipoUsuario 
+    */
+    private static double aplicarDescuentoPorUsuario(Usuario usuario, double total) {
+    	switch (usuario.getTipo()) {
+	        case EMPLEADO: return total * 0.7;
+	        case MIEMBRO_GOLD: return total * 0.85;
+	        case MIEMBRO_SILVER: return total * 0.9;
+	        default: return total;
+    	}
+        
     }
-}
+    
     /*
      * Metodo que devuelve el total base con los descuentos principales aplicados
      */
-    private double aplicarDescuentosYCargosGenerales(final double precioBase,final int cantidad,final double descuento,final boolean tieneF,final double saldoTarjeta,final double impuestos,final boolean oferE,final boolean esNavidad,final boolean miembroV) {
-		double total = precioBase * cantidad;
+    private double aplicarDescuentosYCargosGenerales(final Producto producto, final double descuento,final double impuestos,final boolean oferE,final boolean esNavidad, final Usuario usuario) {
+		double total = producto.getPrecioBase() * producto.getCantidad();
 		
 		if (descuento > 0) {
 			total -= total * (descuento / 100);
 		}
 
-		if (tieneF && saldoTarjeta > 0) {
-			total -= saldoTarjeta;
+		if (usuario.isTieneTarjetaFidelidad() && usuario.getSaldoTarjeta() > 0) {
+			total -= usuario.getSaldoTarjeta();
 		}
 
 		total += total * (impuestos / 100);
@@ -114,7 +97,7 @@ public class EntornosFactorizar {
 			total *= 0.85;
 		}
 
-		if (miembroV) {
+		if (usuario.isEsMiembroVip()) {
 			total *= 0.8;
 		}
 
@@ -126,3 +109,5 @@ public class EntornosFactorizar {
 		}
 				
 	}
+}
+    
